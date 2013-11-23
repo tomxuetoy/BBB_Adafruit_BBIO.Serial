@@ -1,0 +1,29 @@
+BBB_Adafruit_BBIO.Serial
+========================
+
+public example from Adafruit_BBIO Serial port
+
+For this trial, preparation should be done below:
+(1) Connect USB-to-Serial cable's white line(RX) with P9_24(UART1 TX);
+(2) /dev/ttyO1 does not exist issue:
+When firstlt run command:
+python serial_test.py
+Then below error will be given:
+...failed to load firmware 'ADAFRUIT-00A0.dtbo'
+
+Check /dev/ttyO1, find that it does not exist at all.
+How to solve it?
+Check this post: https://github.com/adafruit/adafruit-beaglebone-io-python/issues/34
+run it:
+echo ADAFRUIT-UART1 | sudo tee /sys/devices/bone_capemgr*/slots
+or
+echo ADAFRUIT-UART1 | tee /sys/devices/bone_capemgr*/slots
+
+Then now we could find that /dev/ttyO1 is there!
+And then we get:
+root@beaglebone:~/tomxue# python serial_test.py
+return 1 lookup_uart_by_nameSerial is open!
+
+And in another putty serial window (connect to USB-to-Serial COM port and set the baud rate @ 9600):
+Hello World!Hello World!Hello World!Hello World!Hello World!Hello World!Hello Wrld!
+
